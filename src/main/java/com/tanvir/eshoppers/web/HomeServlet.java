@@ -18,17 +18,12 @@ import java.util.List;
 public class HomeServlet extends HttpServlet {
 
 
-    private ProductService productService
-            = new ProductServiceImpl(new DummyProductRepositoryImpl());
+    private ProductService productService = new ProductServiceImpl(new DummyProductRepositoryImpl());
 
-    protected void doGet(HttpServletRequest req,
-                         HttpServletResponse resp)
-            throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        List<ProductDTO> allProducts
-                = productService.findAllProductSortedByName();
+        List<ProductDTO> allProducts = productService.findAllProductSortedByName();
         req.setAttribute("products", allProducts);
-        req.getRequestDispatcher("/WEB-INF/home.jsp")
-                .forward(req, resp);
+        req.getRequestDispatcher("/WEB-INF/home.jsp").forward(req, resp);
     }
 }
