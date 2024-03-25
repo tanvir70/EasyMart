@@ -34,6 +34,7 @@
 <div class="container">
     <div class="jumbotron">
         <h1>Welcome to EasyMart! </h1>
+        <img src="<c:url value="/image/cart.png"/>" style="height: 200px" alt="easy mart logo"/>
     </div>
     <table class="table">
         <thead>
