@@ -1,5 +1,5 @@
 <%@include file="header.jsp"%>
-<%@include file="footer.jsp"%>
+<%@include file="navigation.jsp"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
  <div class="container">
      <div class="alert alert-warning" role="alert">

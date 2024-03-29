@@ -1,17 +1,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <link rel="stylesheet" type="text/css" href="<c:url value="/webjars/bootstrap/4.4.1/css/bootstrap.min.css"/>"/>
-</head>
-<body>
 
 <%@include file="includes/header.jsp"%>
+<%@include file="includes/navigation.jsp"%>
 
 <div class="container">
     <div class="jumbotron">
         <img src="<c:url value="/image/cart.png"/>" style="height: 50px" alt=""/>
-        <h1>Welcome to EasyMart! You need shop easy. </h1>
+        <h1>Welcome to EasyMart! You need shop easy.</h1>
     </div>
     <div class="row">
         <c:forEach var="product" items="${products}">
@@ -38,5 +33,3 @@
     </div>
 </div>
 <%@include file="includes/footer.jsp"%>
-</body>
-</html>

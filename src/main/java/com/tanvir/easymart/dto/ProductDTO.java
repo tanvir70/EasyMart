@@ -1,4 +1,4 @@
-package com.tanvir.eshoppers.dto;
+package com.tanvir.easymart.dto;
 
 import java.math.BigDecimal;
 

@@ -1,6 +1,6 @@
-package com.tanvir.eshoppers.repository;
+package com.tanvir.easymart.repository;
 
-import com.tanvir.eshoppers.dto.ProductDTO;
+import com.tanvir.easymart.dto.ProductDTO;
 
 import java.util.List;
 
