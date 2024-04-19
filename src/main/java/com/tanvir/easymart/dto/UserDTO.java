@@ -1,11 +1,26 @@
 package com.tanvir.easymart.dto;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+
 public class UserDTO {
+    @NotEmpty
+    @Size(min = 4, max = 32)
     private String username;
+    @NotEmpty
+    @Size(min = 8, max = 16)
     private String password;
+    @NotEmpty
+    @Size(min = 8, max = 16)
     private String passwordConfirmed;
+    @NotEmpty
+    @Size(min = 4, max = 64)
     private String email;
+    @NotEmpty
+    @Size(min = 4, max = 32)
     private String firstName;
+    @NotEmpty
+    @Size(min = 4, max = 32)
     private String lastName;
 
     public String getUsername() {

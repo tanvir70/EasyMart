@@ -13,7 +13,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
 import java.io.IOException;
+import java.util.Set;
 
 @WebServlet("/signup")
 public class SignUpServlet extends HttpServlet {
@@ -54,7 +58,12 @@ public class SignUpServlet extends HttpServlet {
     }
 
     private boolean isValid(UserDTO userDTO) {
-        return true;
+       var validatorFactory = Validation.buildDefaultValidatorFactory();
+
+       var validator = validatorFactory.getValidator();
+
+        Set<ConstraintViolation<UserDTO>> violations = validator.validate(userDTO);
+        return violations.size() == 0;
     }
 }
 

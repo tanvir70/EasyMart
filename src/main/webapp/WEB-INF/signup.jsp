@@ -11,7 +11,7 @@
         <div class="form-group">
             <label for="username">Username</label>
             <input type="text" class="form-control" id="username"
-                   name="username" placeholder=""/>
+                   name="username" placeholder="Enter Your Username"/>
         </div>
         <div class="form-group">
             <label for="email">Email</label>
@@ -32,6 +32,7 @@
                    id="passwordConfirmed"
                    name="passwordConfirmed">
         </div>
+
         <div class="form-group">
             <label for="email">First Name</label>
             <input type="text" class="form-control" id="firstName"
@@ -42,6 +43,7 @@
             <input type="text" class="form-control" id="lastName"
                    name="lastName"/>
         </div>
+
         <hr class="mb-4">
         <div class="form-group">
             <button class="btn btn-primary btn-lg" type="submit">
@@ -50,4 +52,6 @@
         </div>
     </form>
 </div>
+
+
 <%@include file="includes/footer.jsp" %>

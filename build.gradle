@@ -22,4 +22,6 @@ dependencies {
     implementation 'org.webjars:bootstrap:4.4.1'
     implementation 'ch.qos.logback:logback-classic:1.2.3'
 
+    implementation 'org.hibernate.validator:hibernate-validator:6.1.0.Final'
+
 }
