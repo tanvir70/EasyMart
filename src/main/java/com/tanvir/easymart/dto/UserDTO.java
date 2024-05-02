@@ -1,7 +1,15 @@
 package com.tanvir.easymart.dto;
 
+import com.tanvir.easymart.util.PasswordEqual;
+
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+
+@PasswordEqual(
+        first = "password",
+        second = "passwordConfirmed",
+        message = "password and confirm password do not match"
+)
 
 public class UserDTO {
     @NotEmpty
