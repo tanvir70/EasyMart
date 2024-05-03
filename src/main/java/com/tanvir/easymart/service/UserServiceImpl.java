@@ -4,6 +4,10 @@ import com.tanvir.easymart.domain.User;
 import com.tanvir.easymart.dto.UserDTO;
 import com.tanvir.easymart.repository.UserRepository;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 public class UserServiceImpl implements UserService{
     private UserRepository userRepository;
 
@@ -31,6 +35,25 @@ public class UserServiceImpl implements UserService{
     }
 
     private String encryptPassword(String password) {
-        return password;
+        try{
+            var digest = MessageDigest.getInstance("SHA-256");
+            var bytes = digest.digest(password.getBytes(StandardCharsets.UTF_8));
+            return bytesToHex(bytes);
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException("Unable to encrypt password",e);
+        }
+
+    }
+
+    private String bytesToHex(byte[] bytes) {
+        StringBuilder hexString = new StringBuilder();
+        for (byte b: bytes) {
+            String hex = Integer.toHexString(0xff & b);
+            if (hex.length() == 1){
+                hexString.append('0');
+            }
+            hexString.append(hex);
+        }
+        return hexString.toString();
     }
 }
