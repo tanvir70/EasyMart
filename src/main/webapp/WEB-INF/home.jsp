@@ -1,13 +1,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://tanvir.com/functions" %>
 
 <%@include file="includes/header.jsp" %>
 <%@include file="includes/navigation.jsp" %>
 
 <div class="container">
     <div class="jumbotron">
-        <c:if test="${sessionScope.user != null}">
+        <c:if test="${sec:isAuthenticated(pageContext.request)}">
             <h1>
-                Hello, <c:out value="${sessionScope.user.firstName}"/> Welcome to EasyMart!
+                Hello, <c:out value="${sec:getCurrentUser(pageContext.request).firstName}"/> Welcome to EasyMart!
             </h1>
         </c:if>
         <img src="<c:url value="/image/cart.png"/>" style="height: 50px" alt=""/>
