@@ -6,6 +6,7 @@ import com.tanvir.easymart.domain.User;
 import com.tanvir.easymart.dto.LoginDTO;
 import com.tanvir.easymart.exceptions.UserNotFoundException;
 import com.tanvir.easymart.service.UserServiceImpl;
+import com.tanvir.easymart.util.SecurityContext;
 import com.tanvir.easymart.util.ValidationUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,12 +52,7 @@ public class LoginServlet extends HttpServlet {
     }
     private void login(LoginDTO loginDTO, HttpServletRequest req) throws UserNotFoundException {
         User user = userService.verifyUser(loginDTO);
-        HttpSession oldSession = req.getSession(false);
-        if (oldSession != null){
-            oldSession.invalidate();
-        }
-        HttpSession session = req.getSession(true);
-        session.setAttribute("user", user);
+        SecurityContext.login(req, user);
     }
 }
 

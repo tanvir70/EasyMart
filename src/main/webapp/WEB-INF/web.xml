@@ -17,4 +17,11 @@
         <location>/WEB-INF/includes/error.jsp</location>
     </error-page>
 
+    <jsp-config>
+        <taglib>
+            <taglib-uri>http://tanvir.com/functions</taglib-uri>
+            <taglib-location>/WEB-INF/tags/functions.tld</taglib-location>
+        </taglib>
+    </jsp-config>
+
 </web-app>

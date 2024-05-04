@@ -1,5 +1,5 @@
-<%@include file="header.jsp"%>
-<%@include file="navigation.jsp"%>
+<%@include file="header.jsp" %>
+<%@include file="navigation.jsp" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <div class="container">
@@ -10,4 +10,4 @@
         </p>
     </div>
 </div>
-<%@include file="footer.jsp"%>
+<%@include file="footer.jsp" %>
