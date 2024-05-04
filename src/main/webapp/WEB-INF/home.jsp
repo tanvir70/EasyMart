@@ -1,12 +1,17 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<%@include file="includes/header.jsp"%>
-<%@include file="includes/navigation.jsp"%>
+<%@include file="includes/header.jsp" %>
+<%@include file="includes/navigation.jsp" %>
 
 <div class="container">
     <div class="jumbotron">
+        <c:if test="${sessionScope.user != null}">
+            <h1>
+                Hello, <c:out value="${sessionScope.user.firstName}"/> Welcome to EasyMart!
+            </h1>
+        </c:if>
         <img src="<c:url value="/image/cart.png"/>" style="height: 50px" alt=""/>
-        <h1>Welcome to EasyMart! You need shop easy.</h1>
+
     </div>
     <div class="row">
         <c:forEach var="product" items="${products}">
@@ -32,4 +37,4 @@
         </c:forEach>
     </div>
 </div>
-<%@include file="includes/footer.jsp"%>
+<%@include file="includes/footer.jsp" %>

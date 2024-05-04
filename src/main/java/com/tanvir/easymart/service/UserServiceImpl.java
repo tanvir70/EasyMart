@@ -1,7 +1,9 @@
 package com.tanvir.easymart.service;
 
 import com.tanvir.easymart.domain.User;
+import com.tanvir.easymart.dto.LoginDTO;
 import com.tanvir.easymart.dto.UserDTO;
+import com.tanvir.easymart.exceptions.UserNotFoundException;
 import com.tanvir.easymart.repository.UserRepository;
 
 import java.nio.charset.StandardCharsets;
@@ -32,6 +34,18 @@ public class UserServiceImpl implements UserService{
     @Override
     public boolean inNotUniqueUserName(UserDTO user) {
         return userRepository.findByUsername(user.getUsername()).isPresent();
+    }
+
+    @Override
+    public User verifyUser(LoginDTO loginDTO) {
+        var user = userRepository.findByUsername(loginDTO.getUserName())
+                .orElseThrow(() -> new UserNotFoundException("User not found" + loginDTO.getUserName()));
+        var encrypted = encryptPassword(loginDTO.getPassword());
+        if (user.getPassword().equals(encrypted)){
+           return user;
+        }else {
+            throw new UserNotFoundException("Invalid username or password");
+        }
     }
 
     private String encryptPassword(String password) {

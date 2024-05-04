@@ -1,7 +1,11 @@
 package com.tanvir.easymart.web;
 
+import com.tanvir.easymart.repository.UserRepositoryImpl;
+import com.tanvir.easymart.service.UserService; // new import statement
+import com.tanvir.easymart.domain.User;
 import com.tanvir.easymart.dto.LoginDTO;
 import com.tanvir.easymart.exceptions.UserNotFoundException;
+import com.tanvir.easymart.service.UserServiceImpl;
 import com.tanvir.easymart.util.ValidationUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,11 +15,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
     private static final Logger LOGGER = LoggerFactory.getLogger(LoginServlet.class);
+    private UserService userService = new UserServiceImpl(new UserRepositoryImpl());
 
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         LOGGER.info("serving login page");
@@ -44,6 +50,13 @@ public class LoginServlet extends HttpServlet {
         }
     }
     private void login(LoginDTO loginDTO, HttpServletRequest req) throws UserNotFoundException {
-        //
+        User user = userService.verifyUser(loginDTO);
+        HttpSession oldSession = req.getSession(false);
+        if (oldSession != null){
+            oldSession.invalidate();
+        }
+        HttpSession session = req.getSession(true);
+        session.setAttribute("user", user);
     }
 }
+

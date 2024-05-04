@@ -51,7 +51,7 @@ public class SignUpServlet extends HttpServlet {
         }else {
             LOGGER.info("user is valid, creating a new user with: {}",userDTO);
             userService.saveUser(userDTO);
-            resp.sendRedirect("/home");
+            resp.sendRedirect("/login");
         }
     }
 
