@@ -1,5 +1,6 @@
 package com.tanvir.easymart.service;
 
+import com.tanvir.easymart.domain.Product;
 import com.tanvir.easymart.dto.ProductDTO;
 import com.tanvir.easymart.repository.ProductRepository;
 import org.junit.Assert;
@@ -13,10 +14,14 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class ProductServiceImplTest {
-    private static final ProductDTO APPLE_I_PAD = new ProductDTO("Apple iPad","Apple iPad 10.2 32GB",
+    private static final Product APPLE_I_PAD = new Product(
+            1L,
+            "Apple iPad",
+            "Apple iPad 10.2 32GB",
             BigDecimal.valueOf(369.99));
-    private static final ProductDTO HEADPHONE
-            = new ProductDTO(
+    private static final Product HEADPHONE
+            = new Product(
+            2L,
             "Headphones",
             "Jabra Elite Bluetooth Headphones",
             BigDecimal.valueOf(249.99)

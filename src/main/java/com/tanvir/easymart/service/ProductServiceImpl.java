@@ -1,5 +1,6 @@
 package com.tanvir.easymart.service;
 
+import com.tanvir.easymart.domain.Product;
 import com.tanvir.easymart.dto.ProductDTO;
 import com.tanvir.easymart.repository.ProductRepository;
 
@@ -20,7 +21,16 @@ public class ProductServiceImpl implements ProductService {
 
         return productRepository.findAllProducts()
                 .stream()
+                .map(this::convertToDTO)
                 .sorted(Comparator.comparing(ProductDTO::getName))
                 .collect(Collectors.toList());
+    }
+
+    private ProductDTO convertToDTO(Product product) {
+        return new ProductDTO(
+                product.getId(),
+                product.getName(),
+                product.getDescription(),
+                product.getPrice());
     }
 }

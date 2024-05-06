@@ -1,18 +1,26 @@
-package com.tanvir.easymart.dto;
+package com.tanvir.easymart.domain;
 
 import java.math.BigDecimal;
 
-public class ProductDTO {
+public class Product {
     private Long id;
     private String name;
     private String description;
     private BigDecimal price;
 
-    public ProductDTO(Long id,String name, String description, BigDecimal price) {
+    public Product(Long id, String name, String description, BigDecimal price) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -33,14 +41,6 @@ public class ProductDTO {
 
     public BigDecimal getPrice() {
         return price;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public void setPrice(BigDecimal price) {
