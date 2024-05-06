@@ -25,21 +25,6 @@
                 <c:choose>
                     <c:when
                             test="${sec:isAuthenticated(pageContext.request)}">
-                        <a class="nav-link" href="#">
-                            Logout
-                            [${sec:getCurrentUser(pageContext.request).firstName}]
-                        </a>
-                    </c:when>
-                    <c:otherwise>
-                        <a class="nav-link"
-                           href="<c:url value="/login"/>">
-                            Log In
-                        </a>
-                    </c:otherwise>
-                </c:choose>
-                <c:choose>
-                    <c:when
-                            test="${sec:isAuthenticated(pageContext.request)}">
                         <a class="nav-link" href="#" onclick="logout()">
                             Logout
                             [${sec:getCurrentUser(pageContext.request).firstName}]
@@ -47,10 +32,11 @@
                         <script>
                             function logout() {
                                 document.getElementById('logoutForm').submit();
+                                alert('Logout successful');
                             }
                         </script>
-                        <form style="visibility: hidden" id="logoutFrom"
-                              method="post
+                        <form style="visibility: hidden" id="logoutForm"
+                              method="post"
                               action="<c:url value="/logout"/>">
                         </form>
                     </c:when>

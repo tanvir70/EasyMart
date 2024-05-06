@@ -37,7 +37,16 @@
             <a href="<c:url value="/signup"/>">
             Signup </a>
         </span>
+        <div class="row">
+            <c:if test="${message != null}">
+            <div class="alert alert-success>
+            ${message}
+        </div>
+    </c:if>
+</div>
     </form>
 </div>
+
+
 
 <%@include file="includes/footer.jsp" %>
