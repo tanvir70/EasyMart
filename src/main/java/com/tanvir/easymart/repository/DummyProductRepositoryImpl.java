@@ -5,6 +5,7 @@ import com.tanvir.easymart.dto.ProductDTO;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 public class DummyProductRepositoryImpl implements ProductRepository {
 
@@ -41,5 +42,10 @@ public class DummyProductRepositoryImpl implements ProductRepository {
 	@Override
 	public List<Product> findAllProducts() {
 		return ALL_PRODUCTS();
+	}
+
+	@Override
+	public Optional<Product> findProductById(Long productId) {
+		return findAllProducts().stream().filter(product -> product.getId().equals(productId)).findFirst();
 	}
 }
