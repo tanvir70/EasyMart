@@ -4,6 +4,7 @@ import com.tanvir.easymart.domain.Cart;
 import com.tanvir.easymart.domain.CartItem;
 import com.tanvir.easymart.domain.Product;
 import com.tanvir.easymart.domain.User;
+import com.tanvir.easymart.exceptions.CartItemNotFoundException;
 
 import com.tanvir.easymart.exceptions.ProductNotFoundException;
 import com.tanvir.easymart.repository.CartItemRepository;
@@ -30,89 +31,151 @@ public class CartServiceImpl implements CartService {
     }
 
     public Cart getCartByUser(User currentUser) {
+        if (currentUser == null) {
+            throw new IllegalArgumentException("current user cannot be null");
+        }
+
         Optional<Cart> optionalCart = cartRepository.findByUser(currentUser);
-        return optionalCart.orElseGet(() ->
-                createNewCart(currentUser));
+
+        return optionalCart
+                .orElseGet(() -> createNewCart(currentUser));
     }
 
-    private Cart createNewCart(User currentUser) {
-        Cart cart = new Cart();
-        cart.setUser(currentUser);
-        return cartRepository.save(cart);
-    }
-
+    @Override
     public void addProductToCart(String productId, Cart cart) {
+        Product product = findProduct(productId);
+
+        addProductToCart(product, cart);
+        updateCart(cart);
+    }
+
+    private Product findProduct(String productId) {
         if (productId == null || productId.length() == 0) {
-            throw new IllegalArgumentException("Product id is required");
+            throw new IllegalArgumentException("Product id cannot be null");
         }
         Long id = parseProductId(productId);
 
-        var product = productRepository.findProductById(id)
-                .orElseThrow(() -> new ProductNotFoundException("Product not found with id: " + id));
+        return productRepository.findProductById(id)
+                .orElseThrow(()
+                        -> new ProductNotFoundException("Product not found by id: " + id));
+    }
 
-        addProductToCart(product, cart);
+    @Override
+    public void removeProductToCart(String productId, Cart cart) {
+        Product product = findProduct(productId);
 
+        removeProductToCart(product, cart);
+        updateCart(cart);
+    }
+
+    @Override
+    public void removeAllProductsFromCart(String productId, Cart cart) {
+        Product product = findProduct(productId);
+        cart.getCartItems().removeIf(item -> item.getProduct().equals(product));
+        updateCart(cart);
+    }
+
+
+    private void updateCart(Cart cart) {
         Integer totalTotalItem = getTotalItem(cart);
         BigDecimal totalPrice = calculateTotalPrice(cart);
+
         cart.setTotalItem(totalTotalItem);
         cart.setTotalPrice(totalPrice);
-        cartRepository.save(cart);
+
+        cartRepository.update(cart);
+    }
+
+    private void removeProductToCart(Product productToRemove, Cart cart) {
+        var itemOptional = cart.getCartItems()
+                .stream()
+                .filter(cartItem -> cartItem.getProduct().equals(productToRemove))
+                .findAny();
+
+        var cartItem = itemOptional
+                .orElseThrow(() -> new CartItemNotFoundException("Cart not found by product: "
+                        + productToRemove));
+
+        if (cartItem.getQuantity() > 1) {
+            cartItem.setQuantity(cartItem.getQuantity() - 1);
+            cartItem.setPrice(cartItem.getPrice().subtract(productToRemove.getPrice()));
+            cart.getCartItems().add(cartItem);
+            cartItemRepository.update(cartItem);
+        } else {
+            cart.getCartItems().remove(cartItem);
+            cartItemRepository.remove(cartItem);
+        }
     }
 
     private void addProductToCart(Product product, Cart cart) {
-        var cartItemOptional
-                = findSimilarProductInCart(cart, product);
+        var cartItemOptional = findSimilarProductInCart(cart, product);
+
         var cartItem = cartItemOptional
                 .map(this::increaseQuantityByOne)
-                .orElseGet(() ->
-                        createNewShoppingCartItem(product));
+                .orElseGet(() -> createNewCartItem(product));
+
         cart.getCartItems().add(cartItem);
     }
 
-    private CartItem createNewShoppingCartItem(Product product) {
+    private CartItem createNewCartItem(Product product) {
         var cartItem = new CartItem();
         cartItem.setProduct(product);
         cartItem.setQuantity(1);
         cartItem.setPrice(product.getPrice());
+
         return cartItemRepository.save(cartItem);
     }
 
     private CartItem increaseQuantityByOne(CartItem cartItem) {
         cartItem.setQuantity(cartItem.getQuantity() + 1);
+
         BigDecimal totalPrice = cartItem.getProduct()
                 .getPrice()
-                .multiply(BigDecimal.valueOf(
-                        cartItem.getQuantity()));
+                .multiply(BigDecimal.valueOf(cartItem.getQuantity()));
+
         cartItem.setPrice(totalPrice);
+
         return cartItemRepository.update(cartItem);
     }
 
-    private Optional<CartItem> findSimilarProductInCart(
-            Cart cart, Product product) {
+    private Optional<CartItem> findSimilarProductInCart(Cart cart, Product product) {
+
         return cart.getCartItems()
-                .stream().filter(cartItem ->
-                        cartItem.getProduct().equals(product))
+                .stream()
+                .filter(cartItem -> cartItem.getProduct().equals(product))
                 .findFirst();
     }
 
     private Integer getTotalItem(Cart cart) {
+
         return cart.getCartItems()
-                .stream().map(CartItem::getQuantity)
+                .stream()
+                .map(CartItem::getQuantity)
                 .reduce(0, Integer::sum);
     }
 
     private BigDecimal calculateTotalPrice(Cart cart) {
-        return cart.getCartItems()
-                .stream().map(CartItem::getPrice)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        var items = cart.getCartItems();
+        var totalprice = BigDecimal.ZERO;
+        for (CartItem item: items) {
+            totalprice = totalprice.add(item.getPrice());
+        }
+        return totalprice;
     }
 
     private Long parseProductId(String productId) {
         try {
             return Long.parseLong(productId);
         } catch (NumberFormatException ex) {
-            throw new IllegalArgumentException(
-                    "Product id must be a number", ex);
+            throw new IllegalArgumentException("Product id must be a number", ex);
         }
+    }
+
+    private Cart createNewCart(User currentUser) {
+        Cart cart = new Cart();
+        cart.setUser(currentUser);
+
+        return cartRepository.save(cart);
     }
 }

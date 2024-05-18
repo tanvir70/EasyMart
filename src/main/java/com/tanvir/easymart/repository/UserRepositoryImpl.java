@@ -18,6 +18,10 @@ public class UserRepositoryImpl implements UserRepository{
 
     @Override
     public Optional<User> findByUsername(String username) {
+        var environment = System.getenv();
+        if (environment.get("DEV") != null && environment.get("DEV").equals("true")){
+            return Optional.of(new User("tanvir","bd94dcda26fccb4e68d6a31f9b5aac0b571ae266d822620e901ef7ebe3a11d4f","tanvir@gmail.com","tanvir","Rifat"));
+        }
         return USERS.stream().filter(user -> Objects.equals(user.getUsername(),username)).findFirst();
     }
 }
