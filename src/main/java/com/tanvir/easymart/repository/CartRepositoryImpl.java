@@ -1,6 +1,7 @@
 package com.tanvir.easymart.repository;
 
 import com.tanvir.easymart.domain.Cart;
+import com.tanvir.easymart.domain.Order;
 import com.tanvir.easymart.domain.User;
 
 import java.util.*;
@@ -11,9 +12,30 @@ public class CartRepositoryImpl implements CartRepository {
     private static final Map<User, Set<Cart>>
             CARTS = new ConcurrentHashMap<>();
 
+    private OrderRepository orderRepository = new OrderRepositoryImpl();
+
     @Override
     public Optional<Cart> findByUser(User currentUser) {
-        Set<Cart> carts = CARTS.get(currentUser);
+        var usersCart = getCart(currentUser);
+        if (usersCart.isPresent()) {
+            var cart = usersCart.get();
+            var orders = orderRepository.findOrderByUser(currentUser);
+            if (isOrderAlreadyPlacedWith(orders, cart)) {
+                return Optional.empty();
+            } else {
+                return Optional.of(cart);
+            }
+        }
+        return Optional.empty();
+    }
+    private boolean isOrderAlreadyPlacedWith(
+            Set<Order> orderByUser, Cart cart) {
+
+        return orderByUser.stream()
+                .noneMatch(order -> order.getCart().equals(cart));
+    }
+    private Optional<Cart> getCart(User currentUser) {
+        var carts = CARTS.get(currentUser);
         if (carts != null && !carts.isEmpty()) {
             Cart cart = (Cart) carts.toArray()[carts.size() - 1];
             return Optional.of(cart);
@@ -21,7 +43,7 @@ public class CartRepositoryImpl implements CartRepository {
         return Optional.empty();
     }
 
-    @Override
+        @Override
     public Cart save(Cart cart) {
         CARTS.computeIfPresent(cart.getUser(),
                 (user, carts) -> {
