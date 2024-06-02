@@ -8,7 +8,7 @@
             <div class="col-6">
                 <c:if test="${sec:isAuthenticated(pageContext.request)}">
                     <h1> Hello <c:out value="${sec:getCurrentUser(pageContext.request).firstName}"/>,
-                        Welcome to e-shoppers!
+                        Welcome to
                     </h1>
                 </c:if>
 
