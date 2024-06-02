@@ -24,4 +24,6 @@ dependencies {
 
     implementation 'org.hibernate.validator:hibernate-validator:6.1.0.Final'
 
+    implementation 'mysql:mysql-connector-java:8.0.18'
+    implementation 'com.zaxxer:HikariCP:3.4.1'
 }
