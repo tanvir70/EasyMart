@@ -1,6 +1,7 @@
 package com.tanvir.easymart.web;// presentation layer
 
 import com.tanvir.easymart.dto.UserDTO;
+import com.tanvir.easymart.repository.JdbcUserRepositoryImpl;
 import com.tanvir.easymart.repository.UserRepository;
 import com.tanvir.easymart.repository.UserRepositoryImpl;
 import com.tanvir.easymart.service.UserService;
@@ -24,7 +25,7 @@ import java.util.Set;
 @WebServlet("/signup")
 public class SignUpServlet extends HttpServlet {
     private final static Logger LOGGER = LoggerFactory.getLogger(SignUpServlet.class);
-    private UserService userService = new UserServiceImpl(new UserRepositoryImpl());
+    private UserService userService = new UserServiceImpl(new JdbcUserRepositoryImpl());
 
 
     @Override
