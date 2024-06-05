@@ -1,6 +1,6 @@
 package com.tanvir.easymart.domain;
 
-public class User {
+public class User extends Domain{
     private String username;
     private String password;
     private String email;
