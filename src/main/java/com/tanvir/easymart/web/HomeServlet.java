@@ -2,10 +2,7 @@ package com.tanvir.easymart.web;
 
 import com.tanvir.easymart.domain.Cart;
 import com.tanvir.easymart.dto.ProductDTO;
-import com.tanvir.easymart.repository.CartItemRepositoryImpl;
-import com.tanvir.easymart.repository.CartRepositoryImpl;
-import com.tanvir.easymart.repository.DummyProductRepositoryImpl;
-import com.tanvir.easymart.repository.JdbcProductRepositoryImpl;
+import com.tanvir.easymart.repository.*;
 import com.tanvir.easymart.service.CartService;
 import com.tanvir.easymart.service.CartServiceImpl;
 import com.tanvir.easymart.service.ProductService;
@@ -30,9 +27,9 @@ public class HomeServlet extends HttpServlet {
     private static final Logger LOGGER =  LoggerFactory.getLogger(HomeServlet.class);
     private ProductService productService = new ProductServiceImpl(new DummyProductRepositoryImpl());
     private CartService cartService
-            = new CartServiceImpl(new CartRepositoryImpl(),
+            = new CartServiceImpl(new JdbcCartRepositoryImpl(),
             new JdbcProductRepositoryImpl(),
-            new CartItemRepositoryImpl());
+            new JdbcCartItemRepositoryImpl());
 
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 

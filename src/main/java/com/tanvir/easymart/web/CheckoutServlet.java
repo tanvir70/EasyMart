@@ -1,8 +1,6 @@
 package com.tanvir.easymart.web;
 
-import com.tanvir.easymart.repository.CartItemRepositoryImpl;
-import com.tanvir.easymart.repository.CartRepositoryImpl;
-import com.tanvir.easymart.repository.DummyProductRepositoryImpl;
+import com.tanvir.easymart.repository.*;
 import com.tanvir.easymart.service.CartService;
 import com.tanvir.easymart.service.CartServiceImpl;
 import com.tanvir.easymart.util.SecurityContext;
@@ -21,9 +19,10 @@ public class CheckoutServlet extends HttpServlet {
     private static final Logger LOGGER = LoggerFactory.getLogger(CheckoutServlet.class);
 
     private CartService cartService = new CartServiceImpl(
-                                        new CartRepositoryImpl(),
-                                        new DummyProductRepositoryImpl(),
-                                        new CartItemRepositoryImpl());
+            new JdbcCartRepositoryImpl(),
+            new JdbcProductRepositoryImpl(),
+            new JdbcCartItemRepositoryImpl());
+
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         LOGGER.info("Serving checkout page");
         var currentUser = SecurityContext.getCurrentUser(req);

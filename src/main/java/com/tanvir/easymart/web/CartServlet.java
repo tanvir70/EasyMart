@@ -2,9 +2,7 @@ package com.tanvir.easymart.web;
 
 import com.tanvir.easymart.domain.Cart;
 import com.tanvir.easymart.domain.User;
-import com.tanvir.easymart.repository.CartItemRepositoryImpl;
-import com.tanvir.easymart.repository.CartRepositoryImpl;
-import com.tanvir.easymart.repository.DummyProductRepositoryImpl;
+import com.tanvir.easymart.repository.*;
 import com.tanvir.easymart.service.Action;
 import com.tanvir.easymart.service.CartService;
 import com.tanvir.easymart.service.CartServiceImpl;
@@ -23,7 +21,10 @@ import java.io.IOException;
 public class CartServlet extends HttpServlet {
     private static final Logger LOGGER = LoggerFactory.getLogger(CartServlet.class);
 
-    private CartService cartService = new CartServiceImpl(new CartRepositoryImpl(),new DummyProductRepositoryImpl(),new CartItemRepositoryImpl());
+    private CartService cartService = new CartServiceImpl(
+            new JdbcCartRepositoryImpl(),
+            new JdbcProductRepositoryImpl(),
+            new JdbcCartItemRepositoryImpl());
     protected void doPost(HttpServletRequest req,HttpServletResponse resp) throws IOException {
         var productId = req.getParameter("productId");
         LOGGER.info("Received request to add product with id: {} to cart", productId);
