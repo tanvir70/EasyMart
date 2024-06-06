@@ -100,15 +100,11 @@ public class JdbcCartItemRepositoryImpl implements CartItemRepository {
         try (var connection = dataSource.getConnection();
              var preparedStatement
                      = connection.prepareStatement(UPDATE_CART_ITEM)) {
-            preparedStatement.setInt(1,
-                    cartItemToUpdate.getQuantity());
-            preparedStatement.setBigDecimal(2,
-                    cartItemToUpdate.getPrice());
-            preparedStatement.setLong(3,
-                    cartItemToUpdate.getVersion());
+            preparedStatement.setInt(1, cartItemToUpdate.getQuantity());
+            preparedStatement.setBigDecimal(2, cartItemToUpdate.getPrice());
+            preparedStatement.setLong(3, cartItemToUpdate.getVersion());
             preparedStatement.setTimestamp(4,
-                    Timestamp.valueOf(
-                            cartItemToUpdate.getDateLastUpdated()));
+                    Timestamp.valueOf(cartItemToUpdate.getDateLastUpdated()));
             preparedStatement.setLong(5, cartItemToUpdate.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -123,8 +119,7 @@ public class JdbcCartItemRepositoryImpl implements CartItemRepository {
 
     private Optional<CartItem> findOne (Long id){
             try (var connection = dataSource.getConnection();
-                 var preparedStatement
-                         = connection.prepareStatement(SELECT_CART_ITEM)) {
+                 var preparedStatement = connection.prepareStatement(SELECT_CART_ITEM)) {
                 var resultSet = preparedStatement.executeQuery();
                 List<CartItem> cartItems = extractCartItems(resultSet);
                 if (cartItems.size() > 0) {
