@@ -112,16 +112,17 @@ public class CartServiceImpl implements CartService {
 
         var cartItem = cartItemOptional
                 .map(this::increaseQuantityByOne)
-                .orElseGet(() -> createNewCartItem(product));
+                .orElseGet(() -> createNewCartItem(product,cart));
 
         cart.getCartItems().add(cartItem);
     }
 
-    private CartItem createNewCartItem(Product product) {
+    private CartItem createNewCartItem(Product product, Cart cart) {
         var cartItem = new CartItem();
         cartItem.setProduct(product);
         cartItem.setQuantity(1);
         cartItem.setPrice(product.getPrice());
+        cartItem.setCart(cart);
 
         return cartItemRepository.save(cartItem);
     }
