@@ -15,7 +15,7 @@ public class JDBCTemplate {
 
     private DataSource dataSource = ConnectionPool.getInstance().getDataSource();
 
-    public void UpdateQuery(String query, Object... parameters) {
+    public void updateQuery(String query, Object... parameters) {
         try (var connection = dataSource.getConnection();
              var preparedStatement = connection.prepareStatement(query)) {
             addParameters(preparedStatement, parameters);
