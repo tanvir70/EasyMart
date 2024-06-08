@@ -29,8 +29,8 @@ public class JdbcCartRepositoryImpl implements CartRepository {
     public static final String FIND_BY_USER = "SELECT c.*" +
             " FROM cart c" +
             "         INNER JOIN user u on (c.user_id = u.id)" +
-            " WHERE u.id = ? " +
-            " AND (c.id not in (select cart_id from `order`))";
+            " WHERE u.id = ? " ;
+            //" AND (c.id not in (select cart_id from `order`))";
 
     public static final String FIND_BY_ID = "SELECT id, " +
             " total_price, " +

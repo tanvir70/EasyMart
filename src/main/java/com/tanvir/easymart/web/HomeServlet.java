@@ -25,7 +25,7 @@ import java.util.List;
 public class HomeServlet extends HttpServlet {
 
     private static final Logger LOGGER =  LoggerFactory.getLogger(HomeServlet.class);
-    private ProductService productService = new ProductServiceImpl(new DummyProductRepositoryImpl());
+    private ProductService productService = new ProductServiceImpl(new JdbcProductRepositoryImpl());
     private CartService cartService
             = new CartServiceImpl(new JdbcCartRepositoryImpl(),
             new JdbcProductRepositoryImpl(),
