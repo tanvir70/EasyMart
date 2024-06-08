@@ -2,8 +2,8 @@ package com.tanvir.easymart.domain;
 
 import java.time.LocalDateTime;
 
-public class Order {
-    private Long id;
+public class Order extends Domain {
+
     private Cart cart;
     private User user;
     private ShippingAddress shippingAddress;
@@ -11,13 +11,6 @@ public class Order {
     private boolean shipped;
     private LocalDateTime shippingDate;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public Cart getCart() {
         return cart;
