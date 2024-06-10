@@ -139,11 +139,9 @@ public class JdbcCartRepositoryImpl implements CartRepository {
 
     @Override
     public Optional<Cart> findOne(long cartId) {
-
         var carts = jdbcTemplate.queryForObject(FIND_BY_ID, cartId,
                 this::extractCart
         );
-
         return carts.size() > 0
                 ? Optional.of(carts.get(0))
                 : Optional.empty();
