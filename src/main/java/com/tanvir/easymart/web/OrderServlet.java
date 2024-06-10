@@ -29,9 +29,9 @@ public class OrderServlet extends HttpServlet {
             new JdbcProductRepositoryImpl(),
             new JdbcCartItemRepositoryImpl());
     private OrderService orderService
-            = new OrderServiceImpl(new OrderRepositoryImpl(),
-            new ShippingAddressRepositoryImpl(),
-            new CartRepositoryImpl());
+            = new OrderServiceImpl(new JdbcOrderRepositoryImpl(),
+            new JdbcShippingAddressRepositoryImpl(),
+            new JdbcCartRepositoryImpl());
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         LOGGER.info("OrderServlet doGet() called");
