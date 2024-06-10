@@ -25,8 +25,6 @@ public class JdbcOrderRepositoryImpl implements OrderRepository{
             ", user_id FROM `order` WHERE user_id = ?";
     @Override
     public Order save(Order order) {
-        //order is a reserved word on mysql,
-        // so make sure you quote/back-tic before using it
         var query = "INSERT INTO `order` (" +
                 " shipping_address_id, " +
                 " cart_id, " +
