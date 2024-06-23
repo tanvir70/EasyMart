@@ -3,19 +3,13 @@ package com.tanvir.easymart.jdbc;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
+import javax.enterprise.inject.Produces;
 import javax.sql.DataSource;
 import java.util.ResourceBundle;
 
 public class ConnectionPool {
-    private static final ConnectionPool INSTANCE = new ConnectionPool();
 
-    private ConnectionPool() {
-    }
-
-    public static ConnectionPool getInstance() {
-        return INSTANCE;
-    }
-
+    @Produces
     public DataSource getDataSource() {
         var dbProperties = ResourceBundle.getBundle("db");
 
