@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -24,12 +25,13 @@ import java.util.List;
 @WebServlet("/home")
 public class HomeServlet extends HttpServlet {
 
+    @Inject
+    private ProductService productService;
+
+    @Inject
+    private CartService cartService;
+
     private static final Logger LOGGER =  LoggerFactory.getLogger(HomeServlet.class);
-    private ProductService productService = new ProductServiceImpl(new JdbcProductRepositoryImpl());
-    private CartService cartService
-            = new CartServiceImpl(new JdbcCartRepositoryImpl(),
-            new JdbcProductRepositoryImpl(),
-            new JdbcCartItemRepositoryImpl());
 
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 

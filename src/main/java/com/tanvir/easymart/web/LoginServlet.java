@@ -1,7 +1,6 @@
 package com.tanvir.easymart.web;
 
 import com.tanvir.easymart.repository.JdbcUserRepositoryImpl;
-import com.tanvir.easymart.repository.UserRepositoryImpl;
 import com.tanvir.easymart.service.UserService; // new import statement
 import com.tanvir.easymart.domain.User;
 import com.tanvir.easymart.dto.LoginDTO;
@@ -12,18 +11,19 @@ import com.tanvir.easymart.util.ValidationUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
     private static final Logger LOGGER = LoggerFactory.getLogger(LoginServlet.class);
-    private UserService userService = new UserServiceImpl(new JdbcUserRepositoryImpl());
+    @Inject
+    private UserService userService;
 
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         LOGGER.info("serving login page");
