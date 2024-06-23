@@ -11,6 +11,7 @@ import com.tanvir.easymart.util.ValidationUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -24,14 +25,11 @@ import java.util.Optional;
 public class OrderServlet extends HttpServlet {
     private static final Logger LOGGER = LoggerFactory.getLogger(OrderServlet.class);
 
-    private CartService cartService = new CartServiceImpl(
-            new JdbcCartRepositoryImpl(),
-            new JdbcProductRepositoryImpl(),
-            new JdbcCartItemRepositoryImpl());
-    private OrderService orderService
-            = new OrderServiceImpl(new JdbcOrderRepositoryImpl(),
-            new JdbcShippingAddressRepositoryImpl(),
-            new JdbcCartRepositoryImpl());
+    @Inject
+    private CartService cartService;
+
+    @Inject
+    private OrderService orderService;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         LOGGER.info("OrderServlet doGet() called");

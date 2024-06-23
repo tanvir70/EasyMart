@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.tanvir.easymart.util.StringUtil;
 
+import javax.inject.Inject;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -21,10 +22,9 @@ import java.io.IOException;
 public class CartServlet extends HttpServlet {
     private static final Logger LOGGER = LoggerFactory.getLogger(CartServlet.class);
 
-    private CartService cartService = new CartServiceImpl(
-            new JdbcCartRepositoryImpl(),
-            new JdbcProductRepositoryImpl(),
-            new JdbcCartItemRepositoryImpl());
+    @Inject
+    private CartService cartService;
+
     protected void doPost(HttpServletRequest req,HttpServletResponse resp) throws IOException {
         var productId = req.getParameter("productId");
         LOGGER.info("Received request to add product with id: {} to cart", productId);

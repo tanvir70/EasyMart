@@ -9,11 +9,14 @@ import com.tanvir.easymart.repository.CartRepository;
 import com.tanvir.easymart.repository.OrderRepository;
 import com.tanvir.easymart.repository.ShippingAddressRepository;
 
+import javax.inject.Inject;
+
 public class OrderServiceImpl implements OrderService {
     private OrderRepository orderRepository;
     private ShippingAddressRepository shippingAddressRepository;
     private CartRepository cartRepository;
 
+    @Inject
     public OrderServiceImpl(OrderRepository orderRepository, ShippingAddressRepository shippingAddressRepository, CartRepository cartRepository) {
         this.orderRepository = orderRepository;
         this.shippingAddressRepository = shippingAddressRepository;

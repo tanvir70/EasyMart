@@ -19,14 +19,17 @@ public class JDBCTemplate {
 
     public void updateQuery(String query, Object... parameters) {
         try (var connection = dataSource.getConnection();
-             var preparedStatement = connection.prepareStatement(query)) {
-            addParameters(preparedStatement, parameters);
-            preparedStatement.executeUpdate();
+             var statement
+                     = connection.prepareStatement(query)) {
+            addParameters(statement, parameters);
+            statement.executeUpdate();
         } catch (SQLException e) {
-            LOGGER.info("Unable to Execute update", e);
-            throw new RuntimeException("Unable to Execute update", e);
+            LOGGER.info("Unable to execute update", e);
+            throw new RuntimeException(
+                    "Unable to execute query for result", e);
         }
     }
+
 
     public void query(String query,
                       ThrowableConsumer<ResultSet> consumer) {

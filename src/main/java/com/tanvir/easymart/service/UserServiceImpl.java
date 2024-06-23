@@ -6,6 +6,7 @@ import com.tanvir.easymart.dto.UserDTO;
 import com.tanvir.easymart.exceptions.UserNotFoundException;
 import com.tanvir.easymart.repository.UserRepository;
 
+import javax.inject.Inject;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -13,6 +14,7 @@ import java.security.NoSuchAlgorithmException;
 public class UserServiceImpl implements UserService{
     private UserRepository userRepository;
 
+    @Inject
     public UserServiceImpl(UserRepository userRepository){
         this.userRepository = userRepository;
     }

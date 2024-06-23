@@ -3,11 +3,13 @@ package com.tanvir.easymart.repository;
 import com.tanvir.easymart.domain.ShippingAddress;
 import com.tanvir.easymart.jdbc.JDBCTemplate;
 
+import javax.inject.Inject;
 import java.util.Optional;
 
 public class JdbcShippingAddressRepositoryImpl implements ShippingAddressRepository {
 
-    private JDBCTemplate jdbcTemplate = new JDBCTemplate();
+    @Inject
+    private JDBCTemplate jdbcTemplate;
 
     private final static String INSERT_SHIPPING_ADDRESS
             = "INSERT INTO shipping_address ( " +
